@@ -1,0 +1,20 @@
+<form name="myForm">
+  <div class="control-group" ng-class="{error: myForm.name.$invalid}">
+    <label>Title</label>
+    <br>
+    <input type="text" name="title" ng-model="note.title" required>
+    <span ng-show="myForm.title.$error.required" class="help-inline">
+        Required</span>
+  </div>
+ 
+  <label>Contents</label>
+  <br>
+  <textarea name="contents" ng-model="note.contents"></textarea>
+ 
+  <br>
+  <a href="#/" class="btn">Cancel</a>
+  <button ng-click="save()" ng-disabled="myForm.$invalid"
+          class="btn btn-primary">Save</button>
+  <button ng-click="destroy()"
+          ng-show="note.id" class="btn btn-danger">Delete</button>
+</form>
