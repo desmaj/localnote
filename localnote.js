@@ -17,8 +17,25 @@ app.factory('Notes', function () {
 	return (new Date()).getTime();
     }
     
+    LocalStorageNotes.prototype._serialize = function (note) {
+	return JSON.stringify({id: note.id,
+			       timestamp: note.timestamp.getTime(),
+			       title: note.title,
+			       contents: note.contents
+			      });
+    }
+    
+    LocalStorageNotes.prototype._deserialize = function (string) {
+	var data = JSON.parse(string);
+	return {id: data.id,
+		timestamp: new Date(parseInt(data.timestamp)),
+		title: data.title,
+		contents: data.contents
+		};
+    }
+    
     LocalStorageNotes.prototype.get = function (id) {
-	return JSON.parse(this._storage['note-' + id]);
+	return this._deserialize(this._storage['note-' + id]);
     }
     
     LocalStorageNotes.prototype.save = function (note, cb) {
@@ -26,7 +43,8 @@ app.factory('Notes', function () {
 	if (!note.id) {
 	    note.id = this._createID(note);
 	}
-	this._storage['note-' + note.id] = JSON.stringify(note);
+	note.timestamp = new Date();
+	this._storage['note-' + note.id] = this._serialize(note);
 	if (cb) {
 	    cb();
 	}
@@ -44,7 +62,7 @@ app.factory('Notes', function () {
 	for (var i=0; i<this._storage.length; i++) {
 	    var key = this._storage.key(i);
 	    if (/note-\d+/.test(key)) {
-		items.push(JSON.parse(this._storage[key]));
+		items.push(this._deserialize(this._storage[key]));
 	    }
 	}
 	return items;

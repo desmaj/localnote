@@ -5,27 +5,9 @@
     <div class="notecard-title">
       {{ note.title }}
       <a href="#/edit/{{note.id}}"><i class="glyph glyphicon-pencil"></i></a>
+      <br>
+      {{ note.timestamp.toUTCString() }}
     </div>
     <div class="notecard-contents">{{ note.contents }}</div>
   </div>
 </div>
-<!--
-<table>
-  <thead>
-  <tr>
-    <th>Title</th>
-    <th>Contents</th>
-    <th><a href="#/new"><i class="glyphicon glyphicon-plus"></i></a></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr ng-repeat="note in notes | filter:search | orderBy:'-id'">
-    <td>{{note.title}}</td>
-    <td>{{note.contents}}</td>
-    <td>
-      <a href="#/edit/{{note.id}}"><i class="glyph glyphicon-pencil"></i></a>
-    </td>
-  </tr>
-  </tbody>
-</table>
--->
